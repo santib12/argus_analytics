@@ -1,0 +1,76 @@
+{
+  "page_metadata": {
+    "page": 1,
+    "next": 2,
+    "previous": null,
+    "hasNext": true,
+    "hasPrevious": false
+  },
+  "results": [
+    {
+      "id": "CONT_TX_8000_-NONE-_NAS1510000_3245_-NONE-_0",
+      "type": "D",
+      "type_description": "DEFINITIVE CONTRACT",
+      "action_date": "2026-08-28",
+      "action_type": "B",
+      "action_type_description": "SUPPLEMENTAL AGREEMENT FOR WORK WITHIN SCOPE",
+      "modification_number": "3245",
+      "description": "INTERNATIONAL SPACE STATION",
+      "federal_action_obligation": 0.0,
+      "face_value_loan_guarantee": 0.0,
+      "original_loan_subsidy_cost": 0.0
+    },
+    {
+      "id": "CONT_TX_8000_-NONE-_NAS1510000_3244_-NONE-_0",
+      "type": "D",
+      "type_description": "DEFINITIVE CONTRACT",
+      "action_date": "2026-08-19",
+      "action_type": "B",
+      "action_type_description": "SUPPLEMENTAL AGREEMENT FOR WORK WITHIN SCOPE",
+      "modification_number": "3244",
+      "description": "INTERNATIONAL SPACE STATION",
+      "federal_action_obligation": 0.0,
+      "face_value_loan_guarantee": 0.0,
+      "original_loan_subsidy_cost": 0.0
+    },
+    {
+      "id": "CONT_TX_8000_-NONE-_NAS1510000_3243_-NONE-_0",
+      "type": "D",
+      "type_description": "DEFINITIVE CONTRACT",
+      "action_date": "2026-08-17",
+      "action_type": "C",
+      "action_type_description": "FUNDING ONLY ACTION",
+      "modification_number": "3243",
+      "description": "INTERNATIONAL SPACE STATION",
+      "federal_action_obligation": 1378971.52,
+      "face_value_loan_guarantee": 0.0,
+      "original_loan_subsidy_cost": 0.0
+    },
+    {
+      "id": "CONT_TX_8000_-NONE-_NAS1510000_3241_-NONE-_0",
+      "type": "D",
+      "type_description": "DEFINITIVE CONTRACT",
+      "action_date": "2026-08-05",
+      "action_type": "B",
+      "action_type_description": "SUPPLEMENTAL AGREEMENT FOR WORK WITHIN SCOPE",
+      "modification_number": "3241",
+      "description": "INTERNATIONAL SPACE STATION",
+      "federal_action_obligation": 0.0,
+      "face_value_loan_guarantee": 0.0,
+      "original_loan_subsidy_cost": 0.0
+    },
+    {
+      "id": "CONT_TX_8000_-NONE-_NAS1510000_3234_-NONE-_0",
+      "type": "D",
+      "type_description": "DEFINITIVE CONTRACT",
+      "action_date": "2026-08-04",
+      "action_type": "M",
+      "action_type_description": "OTHER ADMINISTRATIVE ACTION",
+      "modification_number": "3234",
+      "description": "INTERNATIONAL SPACE STATION",
+      "federal_action_obligation": 0.0,
+      "face_value_loan_guarantee": 0.0,
+      "original_loan_subsidy_cost": 0.0
+    }
+  ]
+}

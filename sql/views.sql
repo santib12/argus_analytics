@@ -1,0 +1,39 @@
+-- =============================================================================
+-- Argus Phase 2 — sql/views.sql (stub)
+-- =============================================================================
+-- PURPOSE
+--   Create investigator-friendly views for SQL analytics and Power BI.
+--   Keep views READ-ONLY convenience layers — business logic still lives in
+--   documented SQL files under sql/analysis/ (Phase 5) and Python modules.
+--
+-- WHEN TO FILL THIS IN
+--   - Stub is enough for early Phase 2.
+--   - Add real views after core tables are populated (Phase 3+) and after you
+--     know which joins Power BI will reuse.
+--
+-- VIEW DESIGN TIPS
+--   - Name views with a v_ prefix (e.g., v_vendor_award_totals).
+--   - Document grain in a comment (one row per vendor? per award?).
+--   - Avoid SELECT * in views you will maintain long-term.
+-- =============================================================================
+
+-- Example stub (safe no-op until you replace it):
+-- CREATE OR REPLACE VIEW v_vendor_award_totals AS
+-- SELECT
+--     v.vendor_id,
+--     v.recipient_name,
+--     v.normalized_name,
+--     COUNT(DISTINCT a.award_id) AS award_count,
+--     COALESCE(SUM(t.federal_action_obligation), 0) AS total_obligations
+-- FROM vendors v
+-- LEFT JOIN awards a
+--     ON a.vendor_id = v.vendor_id
+-- LEFT JOIN transactions t
+--     ON t.award_id = a.award_id
+-- GROUP BY
+--     v.vendor_id,
+--     v.recipient_name,
+--     v.normalized_name;
+
+-- TODO: After Phase 5, promote the most reused analysis queries into views here.
+SELECT 'sql/views.sql stub loaded — replace with real CREATE VIEW statements' AS status;

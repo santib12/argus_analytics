@@ -1,0 +1,67 @@
+{
+  "downloaded_on": "2026-09-03",
+  "source": "USAspending API",
+  "base_url": "https://api.usaspending.gov",
+  "note": "Tiny Phase 1 exploration sample for NASA contracts in FY2024. Not a full extract.",
+  "scope": {
+    "agency": "National Aeronautics and Space Administration",
+    "fiscal_year": 2024,
+    "time_period": {
+      "start_date": "2023-10-01",
+      "end_date": "2024-09-30"
+    },
+    "award_type_codes": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "limit": 5
+  },
+  "endpoints": {
+    "awards": "POST /api/v2/search/spending_by_award/",
+    "transactions": "POST /api/v2/search/spending_by_transaction/",
+    "award_detail": "GET /api/v2/awards/{award_id}/"
+  },
+  "request_body_awards": {
+    "filters": {
+      "award_type_codes": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "time_period": [
+        {
+          "start_date": "2023-10-01",
+          "end_date": "2024-09-30"
+        }
+      ],
+      "agencies": [
+        {
+          "type": "awarding",
+          "tier": "toptier",
+          "name": "National Aeronautics and Space Administration"
+        }
+      ]
+    },
+    "fields": [
+      "Award ID",
+      "Recipient Name",
+      "Recipient UEI",
+      "Start Date",
+      "End Date",
+      "Award Amount",
+      "Awarding Agency",
+      "Awarding Sub Agency",
+      "Contract Award Type",
+      "Funding Agency",
+      "Funding Sub Agency",
+      "Description"
+    ],
+    "limit": 5,
+    "page": 1,
+    "sort": "Award Amount",
+    "order": "desc"
+  }
+}

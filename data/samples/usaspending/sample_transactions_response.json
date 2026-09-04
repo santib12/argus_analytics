@@ -1,0 +1,71 @@
+{
+  "limit": 5,
+  "results": [
+    {
+      "Award ID": "NAS1510000",
+      "Recipient Name": "THE BOEING COMPANY",
+      "Action Date": "2024-09-30",
+      "Transaction Amount": 0.0,
+      "Awarding Agency": "National Aeronautics and Space Administration",
+      "Awarding Sub Agency": "National Aeronautics and Space Administration",
+      "Mod": "3114",
+      "generated_internal_id": "CONT_AWD_NAS1510000_8000_-NONE-_-NONE-",
+      "internal_id": 311267295
+    },
+    {
+      "Award ID": "NAS1510000",
+      "Recipient Name": "THE BOEING COMPANY",
+      "Action Date": "2024-09-26",
+      "Transaction Amount": 23398809.14,
+      "Awarding Agency": "National Aeronautics and Space Administration",
+      "Awarding Sub Agency": "National Aeronautics and Space Administration",
+      "Mod": "3115",
+      "generated_internal_id": "CONT_AWD_NAS1510000_8000_-NONE-_-NONE-",
+      "internal_id": 311267295
+    },
+    {
+      "Award ID": "NAS1510000",
+      "Recipient Name": "THE BOEING COMPANY",
+      "Action Date": "2024-09-24",
+      "Transaction Amount": 46598248.94,
+      "Awarding Agency": "National Aeronautics and Space Administration",
+      "Awarding Sub Agency": "National Aeronautics and Space Administration",
+      "Mod": "3110",
+      "generated_internal_id": "CONT_AWD_NAS1510000_8000_-NONE-_-NONE-",
+      "internal_id": 311267295
+    },
+    {
+      "Award ID": "NAS1510000",
+      "Recipient Name": "THE BOEING COMPANY",
+      "Action Date": "2024-09-24",
+      "Transaction Amount": 0.0,
+      "Awarding Agency": "National Aeronautics and Space Administration",
+      "Awarding Sub Agency": "National Aeronautics and Space Administration",
+      "Mod": "3113",
+      "generated_internal_id": "CONT_AWD_NAS1510000_8000_-NONE-_-NONE-",
+      "internal_id": 311267295
+    },
+    {
+      "Award ID": "NAS1510000",
+      "Recipient Name": "THE BOEING COMPANY",
+      "Action Date": "2024-09-23",
+      "Transaction Amount": 0.0,
+      "Awarding Agency": "National Aeronautics and Space Administration",
+      "Awarding Sub Agency": "National Aeronautics and Space Administration",
+      "Mod": "3104",
+      "generated_internal_id": "CONT_AWD_NAS1510000_8000_-NONE-_-NONE-",
+      "internal_id": 311267295
+    }
+  ],
+  "page_metadata": {
+    "page": 1,
+    "next": 2,
+    "previous": null,
+    "hasNext": true,
+    "hasPrevious": false
+  },
+  "messages": [
+    "For searches, time period start and end dates are currently limited to an earliest date of 2007-10-01.  For data going back to 2000-10-01, use either the Custom Award Download feature on the website or one of our download or bulk_download API endpoints as listed on https://api.usaspending.gov/docs/endpoints. ",
+    "The following filters from the request were not used: {'keyword_search'}. See https://api.usaspending.gov/docs/endpoints for a list of appropriate filters"
+  ]
+}

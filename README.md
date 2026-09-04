@@ -263,13 +263,13 @@ This project is designed to demonstrate skills relevant to forensic analytics, f
 
 # Current Project Status
 
-**Current Phase:** Phase 1 — Data Research
+**Current Phase:** Phase 3 — USAspending Ingestion
 
 **Overall Progress:**
 
 - [x] Phase 0 — Project Setup
-- [ ] Phase 1 — Data Research
-- [ ] Phase 2 — PostgreSQL Database
+- [x] Phase 1 — Data Research
+- [x] Phase 2 — PostgreSQL Database
 - [ ] Phase 3 — USAspending Ingestion
 - [ ] Phase 4 — Data Cleaning
 - [ ] Phase 5 — SQL Analytics
@@ -1927,29 +1927,29 @@ notebooks/01_data_exploration.ipynb
 
 ### Implementation Checklist
 
-- [ ] **Read USAspending API documentation**
+- [x] **Read USAspending API documentation**
   - File: notes in `docs/sources_notes.md`
   - Depends on: Phase 0
   - Concepts: REST, JSON
   - Output: list of relevant endpoints
   - Test: open docs URL and capture endpoint names
-- [ ] Identify relevant endpoints (awards search, transactions, recipient profiles, etc.)
-- [ ] Identify bulk download options and file layouts
-- [ ] Download sample award data (small)
-- [ ] Download sample transaction data (small)
-- [ ] Inspect JSON response structure
-- [ ] Identify primary keys
-- [ ] Identify important foreign-key relationships (award ↔ transaction ↔ recipient ↔ agency)
-- [ ] Identify null-heavy fields
-- [ ] Identify vendor identifiers (UEI, name, location)
-- [ ] Identify agency identifiers (toptier/subtier codes/names)
-- [ ] Document data dictionary draft in `docs/data_dictionary.md`
-- [ ] Examine SAM exclusion structure (fields, active vs terminated)
-- [ ] Identify SAM identifiers (UEI, names, aliases)
-- [ ] Identify DOJ case sources (press releases, PCSF materials)
-- [ ] Select initial development dataset (agency + fiscal year) and write it down in `docs/sources_notes.md`
-- [ ] Save samples under `data/samples/` for tests (not full dumps)
-- [ ] Record provenance: download date, endpoint/URL, filters used
+- [x] Identify relevant endpoints (awards search, transactions, recipient profiles, etc.)
+- [x] Identify bulk download options and file layouts
+- [x] Download sample award data (small)
+- [x] Download sample transaction data (small)
+- [x] Inspect JSON response structure
+- [x] Identify primary keys
+- [x] Identify important foreign-key relationships (award ↔ transaction ↔ recipient ↔ agency)
+- [x] Identify null-heavy fields
+- [x] Identify vendor identifiers (UEI, name, location)
+- [x] Identify agency identifiers (toptier/subtier codes/names)
+- [x] Document data dictionary draft in `docs/data_dictionary.md`
+- [x] Examine SAM exclusion structure (fields, active vs terminated)
+- [x] Identify SAM identifiers (UEI, names, aliases)
+- [x] Identify DOJ case sources (press releases, PCSF materials)
+- [x] Select initial development dataset (agency + fiscal year) and write it down in `docs/sources_notes.md`
+- [x] Save samples under `data/samples/` for tests (not full dumps)
+- [x] Record provenance: download date, endpoint/URL, filters used
 
 ### Definition of Done
 
@@ -1957,9 +1957,9 @@ You can explain the key entities/keys for USAspending awards and transactions, h
 
 ### Testing
 
-- [ ] Open sample JSON and list top-level keys
-- [ ] Manually join one award to its transactions conceptually
-- [ ] Confirm sample files are small enough for Git or kept local intentionally
+- [x] Open sample JSON and list top-level keys
+- [x] Manually join one award to its transactions conceptually
+- [x] Confirm sample files are small enough for Git or kept local intentionally
 
 ### Common Mistakes
 
@@ -1998,37 +1998,37 @@ scripts/init_db.sh
 
 ### Implementation Checklist
 
-- [ ] Install PostgreSQL locally
-- [ ] Create `argus` database
-- [ ] Create database user with least-privilege local access
-- [ ] Configure `DATABASE_URL` in `.env`
-- [ ] **Write `sql/schema.sql`**
+- [x] Install PostgreSQL locally
+- [x] Create `argus` database
+- [x] Create database user with least-privilege local access
+- [x] Configure `DATABASE_URL` in `.env`
+- [x] **Write `sql/schema.sql`**
   - File: `sql/schema.sql`
   - Depends on: Phase 1 data dictionary
   - Concepts: PKs, FKs, types
   - Output: executable schema
   - Test: `psql -d argus -f sql/schema.sql`
-- [ ] Create `vendors` table
-- [ ] Create `agencies` table
-- [ ] Create `awards` table
-- [ ] Create `transactions` table
-- [ ] Create `exclusions` table
-- [ ] Create `entity_matches` table
-- [ ] Create `vendor_features` table
-- [ ] Create `risk_flags` table
-- [ ] Create `risk_scores` table
-- [ ] Create `doj_cases` table
-- [ ] Add foreign keys
-- [ ] Add unique constraints (e.g., natural award IDs, UEI where appropriate)
-- [ ] Add indexes in `sql/indexes.sql`
-- [ ] **Create DB connection module**
+- [x] Create `vendors` table
+- [x] Create `agencies` table
+- [x] Create `awards` table
+- [x] Create `transactions` table
+- [x] Create `exclusions` table
+- [x] Create `entity_matches` table
+- [x] Create `vendor_features` table
+- [x] Create `risk_flags` table
+- [x] Create `risk_scores` table
+- [x] Create `doj_cases` table
+- [x] Add foreign keys
+- [x] Add unique constraints (e.g., natural award IDs, UEI where appropriate)
+- [x] Add indexes in `sql/indexes.sql`
+- [x] **Create DB connection module**
   - File: `src/database/connection.py`
   - Depends on: settings
   - Output: engine/session helpers
   - Test: successful `SELECT 1`
-- [ ] Test inserts (manual sample rows)
-- [ ] Test joins (vendor ↔ awards ↔ transactions)
-- [ ] Document schema decisions in `docs/architecture.md` draft
+- [x] Test inserts (manual sample rows)
+- [x] Test joins (vendor ↔ awards ↔ transactions)
+- [x] Document schema decisions in `docs/architecture.md` draft
 
 ### Definition of Done
 
@@ -2041,8 +2041,8 @@ INSERT INTO vendors (recipient_name, normalized_name) VALUES ('TEST VENDOR LLC',
 SELECT * FROM vendors;
 ```
 
-- [ ] Re-run schema on empty DB without errors
-- [ ] Confirm FK rejects orphan award rows
+- [x] Re-run schema on empty DB without errors
+- [x] Confirm FK rejects orphan award rows
 
 ### Common Mistakes
 
