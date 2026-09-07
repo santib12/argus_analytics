@@ -13,12 +13,12 @@ https://github.com/santib12/argus_analytics
 # Progress Snapshot
 
 ```text
-Current Phase:              Phase 4 — Data Cleaning and Normalization
-Overall Status:             Phase 3 COMPLETE for MVP slice; full roadmap ~30%; MVP ~40%
-Last Reviewed:              2026-09-06
-Primary Working Component:  USAspending awards + transactions ingestion (CLI verified)
-Primary Blocker:            None for Phase 3 MVP path (Postgres + API worked on developer machine)
-Recommended Next Task:      Phase 4 — vendor name / UEI / date / money normalization modules
+Current Phase:              Phase 5 — Core SQL Investigations
+Overall Status:             Phase 4 COMPLETE for core normalizers/tests; full roadmap ~35%; MVP ~50%
+Last Reviewed:              2026-09-07
+Primary Working Component:  Phase 4 processing normalizers + run_normalization.py
+Primary Blocker:            None (run normalization against local Postgres when available)
+Recommended Next Task:      Phase 5 — first SQL investigation scripts under sql/analysis/
 ```
 
 ---
@@ -33,7 +33,7 @@ Statuses are based on **code inspection + runnable checks in this review**, not 
 | Phase 1 — Understand the Data | COMPLETE | 100% | `docs/data_dictionary.md`, `docs/sources_notes.md`, `data/samples/usaspending/*`, `notebooks/01_data_exploration.ipynb`, provenance recorded |
 | Phase 2 — PostgreSQL Database | COMPLETE | 90% | Schema/indexes/models/connection/`init_db.sh`; views still stub |
 | Phase 3 — USAspending Data Ingestion | COMPLETE | 90% | Awards + transactions fetch/transform/upsert/CLI verified live (100 txs / 1 award page); larger full-FY pull and pytest coverage still open; `bulk_loader.upsert_many` still stub |
-| Phase 4 — Data Cleaning and Normalization | NOT STARTED | 0% | `src/processing/` empty (no modules) |
+| Phase 4 — Data Cleaning and Normalization | COMPLETE | 90% | `normalize_*` + `validate_uei` + tests (10 passed); `run_normalization.py` + DQ report template; award ingest uses `normalize_company_name`; local DB backfill when Postgres is up |
 | Phase 5 — Core SQL Investigations | NOT STARTED | 0% | `sql/analysis/` empty; `sql/views.sql` is a stub `SELECT` |
 | Phase 6 — Rules-Based Forensic Analytics | NOT STARTED | 0% | `src/analytics/rules/` empty |
 | Phase 7 — SAM.gov Exclusion Integration | NOT STARTED | 0% | No SAM client/loader; `exclusions` table schema only |
@@ -53,7 +53,7 @@ Statuses are based on **code inspection + runnable checks in this review**, not 
 | Phase 21 — Documentation | IN PROGRESS | 25% | Strong README + Phase 1–2 docs; missing ops runbooks, API docs, rule methodology docs |
 | Phase 22 — Portfolio Release | NOT STARTED | 0% | Not at release gate |
 
-**README vs reality:** README now marks Phases 0–3 complete and Phase 4 as current. Matches verified awards + transactions ingestion on a NASA FY2024 slice.
+**README vs reality:** README marks Phases 0–4 complete; Phase 5 is next. Matches verified ingest + normalization modules/tests.
 
 ---
 
@@ -174,7 +174,7 @@ src/
 ├── config/                 COMPLETE
 ├── database/               COMPLETE (views SQL separate; live DB verify blocked this session)
 ├── ingestion/              COMPLETE for MVP path (bulk_loader.upsert_many still stub)
-├── processing/             NOT STARTED (empty)
+├── processing/             COMPLETE (core Phase 4 normalizers + validate)
 ├── entity_resolution/      NOT STARTED (empty)
 ├── analytics/
 │   ├── rules/              NOT STARTED (empty)
@@ -476,49 +476,46 @@ No other verified functional bugs in the awards transform offline path were foun
 
 ## Next Task
 
-### Phase 4 — Core normalization helpers for vendors and awards
+### Phase 5 — First investigative SQL scripts
 
-**Phase:** Phase 4
+**Phase:** Phase 5
 
 **Why this comes next:**
 
-Phase 3 MVP ingestion path works (awards + transactions). Analytics and rules need clean UEIs, normalized vendor names, and consistent date/money types.
+Ingested + normalized procurement data is ready for forensic questions (vendor totals, concentration, modifications, velocity).
 
 **Dependencies:**
 
-- Populated `vendors` / `awards` / `transactions` tables (available after Phase 3)
+- Populated `vendors` / `awards` / `transactions`
+- Prefer running `scripts/run_normalization.py` once against local DB
 
 **Files likely involved:**
 
-- `src/processing/normalize_names.py`
-- `src/processing/normalize_awards.py`
-- `src/processing/validate.py`
-- `tests/test_normalization.py`
-- `docs/data_quality_report.md` (template)
+- `sql/analysis/vendor_totals.sql`
+- `sql/analysis/award_concentration.sql`
+- `sql/analysis/modification_analysis.sql`
+- `sql/views.sql`
 
 **Definition of Done:**
 
-- [ ] Reusable name/UEI/date/money normalizers
-- [ ] Applied or applicable to ingested rows without destroying raw files
-- [ ] Basic unit tests for normalizers
-- [ ] Short data-quality notes documented
+- [ ] At least vendor totals + modification ratio queries runnable in `psql`
+- [ ] Documented in README Phase 5 checklist progress
 
 **Verification command:**
 
 ```bash
-source .venv/bin/activate
-pytest tests/test_normalization.py -q
+PGPASSWORD=password psql -h localhost -U argus -d argus -f sql/analysis/vendor_totals.sql
 ```
 
 ---
 
 # Next 5 Tasks
 
-1. Begin Phase 4 vendor-name / UEI / date / money normalization
-2. Add focused pytest coverage for award/transaction transforms (mocked HTTP optional)
-3. Implement `bulk_loader.upsert_many` and reduce row-by-row loading cost
-4. Fix `check_connection` boolean behavior and align settings default URL with `.env.example`
-5. Start Phase 5 SQL investigation scripts under `sql/analysis/`
+1. Write `sql/analysis/vendor_totals.sql` and related Phase 5 queries
+2. Promote reusable joins into `sql/views.sql`
+3. Add more pytest coverage for ingestion transforms
+4. Implement `bulk_loader.upsert_many`
+5. Start Phase 6 rules engine (rapid growth, concentration, etc.)
 
 ---
 
@@ -530,7 +527,7 @@ pytest tests/test_normalization.py -q
 - [x] Agency + fiscal year scope chosen (NASA FY2024)
 - [x] PostgreSQL schema for vendors/agencies/awards/transactions/risk_flags/risk_scores
 - [x] USAspending ingestion works for scope (awards + transactions verified on slice)
-- [ ] Cleaning/normalization for vendor names and core types
+- [x] Cleaning/normalization for vendor names and core types
 - [ ] SQL analyses: totals, growth, concentration, modifications, velocity
 - [ ] Five rules implemented and persisted as flags
 - [ ] Simple overall risk score from rules (weights documented)
@@ -540,7 +537,7 @@ pytest tests/test_normalization.py -q
 
 ```text
 MVP Status:                 IN PROGRESS
-MVP Completion Estimate:    ~40%
+MVP Completion Estimate:    ~50%
 ```
 
 ---
@@ -550,7 +547,7 @@ MVP Completion Estimate:    ~40%
 Unfinished major capabilities (high level):
 
 - [x] Complete Phase 3 MVP ingestion path (awards + transactions; larger soak optional)
-- [ ] Phase 4 cleaning/normalization + data-quality report
+- [x] Phase 4 cleaning/normalization + data-quality report
 - [ ] Phase 5 SQL investigation library
 - [ ] Phase 6 five forensic rules + `risk_flags`
 - [ ] Phase 7 SAM exclusions

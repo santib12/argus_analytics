@@ -18,6 +18,8 @@ from sqlalchemy import text
 from src.config.logging import get_logger
 from src.database.connection import get_connection
 from src.ingestion.usaspending_client import USASpendingClient
+from src.processing.normalize_names import normalize_company_name
+from src.processing.validate import validate_uei
 
 logger = get_logger(__name__)
 RAW_DIR = Path("data/raw/usaspending")
@@ -101,12 +103,9 @@ def _parse_money(value: Any) -> Decimal | None:
 
 
 def _clean_uei(value: Any) -> str | None:
-    if value is None:
-        return None
-    uei = str(value).strip().upper()
-    if not uei:
-        return None
-    return uei[:12]
+    """Return a valid 12-char UEI or None (invalid formats are dropped, not truncated wrongly)."""
+    result = validate_uei(value)
+    return result.value if result.ok else None
 
 
 def transform_award_row(row: dict[str, Any]) -> dict[str, Any] | None:
@@ -127,12 +126,13 @@ def transform_award_row(row: dict[str, Any]) -> dict[str, Any] | None:
     funding_code = NASA_TOP_TIER_CODE if funding_name == NASA_NAME else ""
 
     amount = _parse_money(row.get("Award Amount"))
+    normalized_name = normalize_company_name(recipient_name) or recipient_name.upper()
 
     return {
         "vendor": {
             "recipient_uei": _clean_uei(row.get("Recipient UEI")),
             "recipient_name": recipient_name,
-            "normalized_name": recipient_name.upper(),
+            "normalized_name": normalized_name,
             "city": None,
             "state": None,
             "country": None,

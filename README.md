@@ -263,7 +263,7 @@ This project is designed to demonstrate skills relevant to forensic analytics, f
 
 # Current Project Status
 
-**Current Phase:** Phase 4 — Data Cleaning and Normalization
+**Current Phase:** Phase 5 — Core SQL Investigations
 
 **Overall Progress:**
 
@@ -271,7 +271,7 @@ This project is designed to demonstrate skills relevant to forensic analytics, f
 - [x] Phase 1 — Data Research
 - [x] Phase 2 — PostgreSQL Database
 - [x] Phase 3 — USAspending Ingestion
-- [ ] Phase 4 — Data Cleaning
+- [x] Phase 4 — Data Cleaning
 - [ ] Phase 5 — SQL Analytics
 - [ ] Phase 6 — Rules Engine
 - [ ] Phase 7 — SAM.gov Integration
@@ -2160,32 +2160,34 @@ docs/data_quality_report.md   (generated or templated)
 
 ### Implementation Checklist
 
-- [ ] **Create company-name normalization function**
+- [x] **Create company-name normalization function**
   - File: `src/processing/normalize_names.py`
   - Depends on: Phase 3 data available
   - Concepts: string normalization
   - Output: `normalize_company_name()`
   - Test: `"ACME TECHNOLOGIES, L.L.C." → "ACME TECHNOLOGIES LLC"`
-- [ ] Normalize capitalization
-- [ ] Remove unnecessary punctuation from company names
-- [ ] Normalize LLC / L.L.C. / Inc. variants
-- [ ] Normalize whitespace
-- [ ] Normalize dates to ISO / DATE types
-- [ ] Normalize currency values to numeric
-- [ ] Handle null values explicitly (do not silently invent)
-- [ ] Detect duplicates
-- [ ] Validate UEIs (length/charset rules as documented)
-- [ ] Create normalized vendor names in DB (`normalized_name`)
-- [ ] Normalize addresses / state codes where feasible
-- [ ] Normalize agency names/codes mapping
-- [ ] Log rejected rows with reasons
-- [ ] Generate data-quality report (null rates, dupes, reject counts)
-- [ ] Write cleaned outputs to `data/processed/` and/or update DB staging fields
-- [ ] Add unit tests for normalizers
+- [x] Normalize capitalization
+- [x] Remove unnecessary punctuation from company names
+- [x] Normalize LLC / L.L.C. / Inc. variants
+- [x] Normalize whitespace
+- [x] Normalize dates to ISO / DATE types
+- [x] Normalize currency values to numeric
+- [x] Handle null values explicitly (do not silently invent)
+- [x] Detect duplicates
+- [x] Validate UEIs (length/charset rules as documented)
+- [x] Create normalized vendor names in DB (`normalized_name`)
+- [x] Normalize addresses / state codes where feasible
+- [x] Normalize agency names/codes mapping
+- [x] Log rejected rows with reasons
+- [x] Generate data-quality report (null rates, dupes, reject counts)
+- [x] Write cleaned outputs to `data/processed/` and/or update DB staging fields
+- [x] Add unit tests for normalizers
 
 ### Definition of Done
 
 Normalization functions are tested; vendors have `normalized_name`; a written data-quality report exists; raw files remain untouched.
+
+**Status (2026-09-07):** Core normalizers + `pytest` suite pass. Run `python scripts/run_normalization.py` locally (Postgres up) to backfill `vendors.normalized_name` and refresh `docs/data_quality_report.md` metrics. New award ingests use `normalize_company_name` via `usaspending_awards.py`.
 
 ### Testing
 
@@ -2193,8 +2195,8 @@ Normalization functions are tested; vendors have `normalized_name`; a written da
 assert normalize_company_name("ACME TECHNOLOGIES, L.L.C.") == "ACME TECHNOLOGIES LLC"
 ```
 
-- [ ] Run validation over ingested tables and save metrics
-- [ ] Confirm rejected-row log exists
+- [x] Run validation over ingested tables and save metrics (`scripts/run_normalization.py`)
+- [x] Confirm rejected-row log exists (`data/processed/vendors/vendor_rejects_*.json` after script run)
 
 ### Common Mistakes
 
@@ -3612,7 +3614,7 @@ Power BI
 - [x] Agency + fiscal year scope chosen
 - [x] PostgreSQL schema for vendors/agencies/awards/transactions/risk_flags/risk_scores
 - [x] USAspending ingestion works for scope (awards + transactions verified on NASA FY2024 slice)
-- [ ] Cleaning/normalization for vendor names and core types
+- [x] Cleaning/normalization for vendor names and core types
 - [ ] SQL analyses: totals, growth, concentration, modifications, velocity
 - [ ] Five rules implemented and persisted as flags
 - [ ] Simple overall risk score from rules (weights documented)
