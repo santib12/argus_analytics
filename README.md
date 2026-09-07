@@ -263,14 +263,14 @@ This project is designed to demonstrate skills relevant to forensic analytics, f
 
 # Current Project Status
 
-**Current Phase:** Phase 3 — USAspending Ingestion
+**Current Phase:** Phase 4 — Data Cleaning and Normalization
 
 **Overall Progress:**
 
 - [x] Phase 0 — Project Setup
 - [x] Phase 1 — Data Research
 - [x] Phase 2 — PostgreSQL Database
-- [ ] Phase 3 — USAspending Ingestion
+- [x] Phase 3 — USAspending Ingestion
 - [ ] Phase 4 — Data Cleaning
 - [ ] Phase 5 — SQL Analytics
 - [ ] Phase 6 — Rules Engine
@@ -2082,42 +2082,44 @@ data/raw/usaspending/
 
 ### Implementation Checklist
 
-- [ ] **Create reusable API client**
+- [x] **Create reusable API client**
   - File: `src/ingestion/usaspending_client.py`
   - Depends on: configuration module
   - Concepts: REST APIs, HTTP, pagination
   - Output: reusable API client
   - Test: successfully retrieve and parse one API response
-- [ ] Configure base URL from settings (`USASPENDING_BASE_URL`)
-- [ ] Add HTTP timeout
-- [ ] Add retries with backoff for transient failures
-- [ ] Implement pagination
-- [ ] Validate HTTP responses (`raise_for_status`, schema sanity checks)
-- [ ] Fetch awards for selected agency + fiscal year
-- [ ] Fetch transactions for selected scope
-- [ ] Save raw API responses under `data/raw/usaspending/`
-- [ ] Transform raw responses into tabular records
-- [ ] Load vendors (dedupe by UEI/normalized name strategy)
-- [ ] Load agencies
-- [ ] Load awards
-- [ ] Load transactions
-- [ ] Prevent duplicate records (upsert / unique constraints)
-- [ ] Add logging (counts, failures, durations)
-- [ ] Add ingestion statistics summary (records attempted/inserted/skipped)
-- [ ] Test ingestion on small dataset
+- [x] Configure base URL from settings (`USASPENDING_BASE_URL`)
+- [x] Add HTTP timeout
+- [x] Add retries with backoff for transient failures
+- [x] Implement pagination
+- [x] Validate HTTP responses (`raise_for_status`, schema sanity checks)
+- [x] Fetch awards for selected agency + fiscal year
+- [x] Fetch transactions for selected scope
+- [x] Save raw API responses under `data/raw/usaspending/`
+- [x] Transform raw responses into tabular records
+- [x] Load vendors (dedupe by UEI/normalized name strategy)
+- [x] Load agencies
+- [x] Load awards
+- [x] Load transactions
+- [x] Prevent duplicate records (upsert / unique constraints)
+- [x] Add logging (counts, failures, durations)
+- [x] Add ingestion statistics summary (records attempted/inserted/skipped)
+- [x] Test ingestion on small dataset
 - [ ] Test ingestion on larger dataset within same agency/FY
-- [ ] Create CLI entrypoint `scripts/run_ingestion.py`
+- [x] Create CLI entrypoint `scripts/run_ingestion.py`
 
 ### Definition of Done
 
 Running the ingestion script populates vendors, agencies, awards, and transactions for the chosen scope; re-running does not create uncontrolled duplicates; raw files exist for audit.
 
+**Status (2026-09-06):** Met for MVP slice verification — awards + transactions CLI paths work; small-scope live ingest verified (e.g. 100 transactions for one NASA award); timestamped raw JSON under `data/raw/usaspending/` (gitignored); upserts prevent uncontrolled duplicates on re-run. Optional follow-ups: larger multi-award/multi-page pull, UI spot-check, timeout simulation tests, `bulk_loader.upsert_many`.
+
 ### Testing
 
-- [ ] Count rows in each core table
+- [x] Count rows in each core table
 - [ ] Spot-check one vendor’s awards against USAspending UI
 - [ ] Simulate API timeout and confirm retry behavior
-- [ ] Confirm raw files are not overwritten silently without versioning/provenance
+- [x] Confirm raw files are not overwritten silently without versioning/provenance
 
 ### Common Mistakes
 
@@ -3606,16 +3608,16 @@ Power BI
 
 ## MVP Checklist
 
-- [ ] Phase 0 environment ready
-- [ ] Agency + fiscal year scope chosen
-- [ ] PostgreSQL schema for vendors/agencies/awards/transactions/risk_flags/risk_scores
-- [ ] USAspending ingestion works for scope
+- [x] Phase 0 environment ready
+- [x] Agency + fiscal year scope chosen
+- [x] PostgreSQL schema for vendors/agencies/awards/transactions/risk_flags/risk_scores
+- [x] USAspending ingestion works for scope (awards + transactions verified on NASA FY2024 slice)
 - [ ] Cleaning/normalization for vendor names and core types
 - [ ] SQL analyses: totals, growth, concentration, modifications, velocity
 - [ ] Five rules implemented and persisted as flags
 - [ ] Simple overall risk score from rules (weights documented)
 - [ ] Power BI page(s) for vendor investigation + overview
-- [ ] Ethics disclaimer visible in README and dashboard tooltip/docs
+- [x] Ethics disclaimer visible in README (dashboard tooltip/docs still missing)
 - [ ] Sample screenshots saved
 
 ```text

@@ -6,6 +6,7 @@ Usage:
   source .venv/bin/activate
   python scripts/run_ingestion.py --max-award-pages 1
   python scripts/run_ingestion.py --awards-only --max-award-pages 1
+  python scripts/run_ingestion.py --transactions-only --limit-awards 1
 """
 
 from __future__ import annotations
@@ -21,6 +22,7 @@ if str(ROOT) not in sys.path:
 from src.config.logging import get_logger
 from src.database.connection import check_connection
 from src.ingestion.usaspending_awards import ingest_awards
+from src.ingestion.usaspending_transactions import ingest_transactions_for_loaded_awards
 
 logger = get_logger(__name__)
 
@@ -35,7 +37,25 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--transactions-only",
         action="store_true",
-        help="Not implemented yet (Phase 3 transactions scaffold).",
+        help="Skip awards; ingest transactions for awards already in the DB.",
+    )
+    parser.add_argument(
+        "--limit-awards",
+        type=int,
+        default=None,
+        help="Max awards to process during transaction ingestion.",
+    )
+    parser.add_argument(
+        "--transaction-page-size",
+        type=int,
+        default=100,
+        help="Page size for POST /api/v2/transactions/.",
+    )
+    parser.add_argument(
+        "--max-transaction-pages",
+        type=int,
+        default=None,
+        help="Optional cap on transaction pages fetched per award.",
     )
     return parser.parse_args()
 
@@ -44,25 +64,28 @@ def main() -> int:
     args = parse_args()
 
     logger.info("Checking database connection...")
-    if not check_connection():
-        logger.error("Database connection failed")
+    try:
+        if not check_connection():
+            logger.error("Database connection failed")
+            return 1
+    except Exception:
+        logger.exception("Database connection failed")
         return 1
 
-    if args.transactions_only:
-        logger.error("Transaction ingestion is not implemented yet.")
-        return 2
-
-    award_stats = ingest_awards(
-        max_pages=args.max_award_pages,
-        limit=args.award_page_size,
-    )
-    logger.info("Award ingestion stats: %s", award_stats)
+    if not args.transactions_only:
+        award_stats = ingest_awards(
+            max_pages=args.max_award_pages,
+            limit=args.award_page_size,
+        )
+        logger.info("Award ingestion stats: %s", award_stats)
 
     if not args.awards_only:
-        logger.info(
-            "Skipping transactions for now. Re-run later after "
-            "src/ingestion/usaspending_transactions.py is implemented."
+        tx_stats = ingest_transactions_for_loaded_awards(
+            limit_awards=args.limit_awards,
+            page_size=args.transaction_page_size,
+            max_pages_per_award=args.max_transaction_pages,
         )
+        logger.info("Transaction ingestion stats: %s", tx_stats)
 
     return 0
 
